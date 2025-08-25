@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  
   "dependencies": {
     "@cloudinary/url-gen": "^1.21.0",
     "@cloudinary/vue": "^1.12.1",
