@@ -11,10 +11,10 @@ import '@quasar/extras/material-icons/material-icons.css'
 import '@quasar/extras/fontawesome-v6/fontawesome-v6.css'
 // Import Quasar css
 import 'quasar/src/css/index.sass'
-
+import 'quasar/dist/quasar.css'
 // Assumes your root component is App.vue
 // and placed in same folder as main.js
-import App from './app.vue'
+import App from './App.vue'
 
 
 const myApp = createApp(App)
