@@ -15,7 +15,7 @@ const routes = [
   {
     path: '/login',
     component: () => import('../pages/Login.vue'),
-    meta: { requiresAdmin: true }
+    // meta: { requiresAdmin: true }
   },
   {
     path: '/adminHome',
@@ -49,7 +49,12 @@ router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
   if (to.meta.requiresAdmin && !token) {
     next({ path: '/' }) // Redirige a House si no hay token
+  }  
+   // si ya está logueado, evitar ir a /login
+  if (to.path === '/login' && token) {
+    return next({ name: 'adminHome' })
   } else {
     next()
   }
 })
+

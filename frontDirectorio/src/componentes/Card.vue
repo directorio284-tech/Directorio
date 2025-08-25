@@ -3,13 +3,13 @@
     <q-img :src="lugar.imagenes?.[0] || 'https://cdn.quasar.dev/img/mountains.jpg'" :ratio="16/9" />
 
     <q-card-section>
-      <div class="text-h6">{{ lugar.nombre }}</div>
-      <div class="text-subtitle2">{{ lugar.tipoNegocio?.nombre || 'Sin categoría' }}</div>
-      <div class="text-caption text-grey">{{ lugar.direccion }}</div>
+      <div class="text-h5">{{ lugar.nombre }}</div>
+      <div class="text-subtitle1">{{ lugar.tipoNegocio?.nombre || 'Sin categoría' }}</div>
+      <div class="text-subtitle2 text-grey-8 text-weight-medium">{{ lugar.direccion }}</div>
 
       <div v-if="lugar.sitioWeb" class="q-mt-sm">
         <q-btn flat dense color="primary" icon="public" label="Sitio Web"
-               @click="openAndCount(lugar.sitioWeb)" />
+               @click="openAndCount(normalizeUrl(lugar.sitioWeb))" />
       </div>
     </q-card-section>
 
@@ -31,7 +31,13 @@
         <q-chip dense color="grey-3" text-color="dark" icon="visibility" class="q-mr-sm">
           {{ visitasLocal }} visitas
         </q-chip>
-        <q-btn flat label="Ver más" color="primary" @click="countAndMaybeNavigate" />
+        <q-btn
+          flat
+          label="Ver más"
+          color="primary"
+          :disable="!lugar.sitioWeb"
+          @click="countAndGoToSite"
+        />
       </div>
     </q-card-actions>
   </q-card>
@@ -72,6 +78,21 @@ async function openAndCount(url) {
   // Contar primero y luego abrir en nueva pestaña
   await countOnce()
   window.open(url, '_blank', 'noopener,noreferrer')
+}
+
+function normalizeUrl(u) {
+  if (!u) return '';
+  return /^https?:\/\//i.test(u) ? u : `https://${u}`;
+}
+
+async function countAndGoToSite() {
+  const url = normalizeUrl(props.lugar?.sitioWeb);
+  if (url) {
+    await openAndCount(url); // cuenta y abre en nueva pestaña
+  } else {
+    // si no hay sitio, solo cuenta (opcional) o no hagas nada
+    await countOnce();
+  }
 }
 
 async function countAndMaybeNavigate() {
