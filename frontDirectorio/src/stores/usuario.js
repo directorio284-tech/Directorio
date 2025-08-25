@@ -27,7 +27,7 @@ export const useStoreUsuarios = defineStore('Usuario', () => {
   const getAll = async () => {
     try {
       insertarToken()
-      const res = await axios.get('http://localhost:3624/api/usuario/listarUsuarios')
+      const res = await axios.get('https://directoriobackend-qn1l.onrender.com/api/usuario/listarUsuarios')
       estatus.value = res.status
       return res.data
     } catch (err) {
@@ -40,7 +40,7 @@ export const useStoreUsuarios = defineStore('Usuario', () => {
   const getById = async (_id) => {
     try {
       insertarToken()
-      const res = await axios.get(`http://localhost:3624/api/usuario/listarpor/${_id}`)
+      const res = await axios.get(`https://directoriobackend-qn1l.onrender.com/api/usuario/listarpor/${_id}`)
       estatus.value = res.status
       return res.data.usuario
     } catch (err) {
@@ -52,7 +52,7 @@ export const useStoreUsuarios = defineStore('Usuario', () => {
   // Registrar usuario
   const agregar = async (data) => {
     try {
-      const res = await axios.post('http://localhost:3624/api/usuario/insertarUsuario', data)
+      const res = await axios.post('https://directoriobackend-qn1l.onrender.com/api/usuario/insertarUsuario', data)
       estatus.value = res.status
       return { success: true, data: res.data }
     } catch (err) {
@@ -67,7 +67,7 @@ export const useStoreUsuarios = defineStore('Usuario', () => {
     try {
       insertarToken()
       console.log(data); 
-      const res = await axios.put(`http://localhost:3624/api/usuario/editarUsuario/${_id}`, data)
+      const res = await axios.put(`https://directoriobackend-qn1l.onrender.com/api/usuario/editarUsuario/${_id}`, data)
       estatus.value = res.status
       return { success: true, data: res.data }
     } catch (err) {
@@ -82,7 +82,7 @@ export const useStoreUsuarios = defineStore('Usuario', () => {
     try {
       insertarToken()
       // No hay ruta eliminar en tu backend, esto es solo ejemplo
-      const res = await axios.delete(`http://localhost:3624/api/usuario/eliminar/${_id}`)
+      const res = await axios.delete(`https://directoriobackend-qn1l.onrender.com/api/usuario/eliminar/${_id}`)
       estatus.value = res.status
       return { success: true, data: res.data }
     } catch (err) {
@@ -102,7 +102,7 @@ export const useStoreUsuarios = defineStore('Usuario', () => {
     validacion.value = ""
 
     try {
-      const res = await axios.post('http://localhost:3624/api/usuario/login', data)
+      const res = await axios.post('https://directoriobackend-qn1l.onrender.com/api/usuario/login', data)
       if (res.status === 200 && res.data.token) {
         token.value = res.data.token
         usuario.value = res.data.usuario
@@ -148,7 +148,7 @@ export const useStoreUsuarios = defineStore('Usuario', () => {
   // Recuperar código
   const codigoRecuperar = async (correo) => {
     try {
-      const res = await axios.post('http://localhost:3624/api/usuario/enviar-codigo', { email: correo })
+      const res = await axios.post('https://directoriobackend-qn1l.onrender.com/api/usuario/enviar-codigo', { email: correo })
       estatus.value = res.status
       codigoCorreo.value = res.data.codigo
       return res.data
@@ -161,7 +161,7 @@ export const useStoreUsuarios = defineStore('Usuario', () => {
   // Confirmar código
   const confirmarCodigo = async (email, codigo) => {
     try {
-      const res = await axios.post('http://localhost:3624/api/usuario/confirmar-codigo', { email, codigo })
+      const res = await axios.post('https://directoriobackend-qn1l.onrender.com/api/usuario/confirmar-codigo', { email, codigo })
       estatus.value = res.status
       return res.data
     } catch (err) {
@@ -173,7 +173,7 @@ export const useStoreUsuarios = defineStore('Usuario', () => {
   // Cambiar nueva contraseña
   const nuevaPassword = async ({ email, codigo, password }) => {
     try {
-      const res = await axios.post('http://localhost:3624/api/usuario/recuperar-password', {
+      const res = await axios.post('https://directoriobackend-qn1l.onrender.com/api/usuario/recuperar-password', {
         email,
         codigo,
         nuevaPassword: password
@@ -190,7 +190,7 @@ export const useStoreUsuarios = defineStore('Usuario', () => {
   const activarUsuario = async (_id) => {
     try {
       insertarToken()
-      const res = await axios.put(`http://localhost:3624/api/usuario/activarUsuario/${_id}`)
+      const res = await axios.put(`https://directoriobackend-qn1l.onrender.com/api/usuario/activarUsuario/${_id}`)
       estatus.value = res.status
       return { success: true, data: res.data }
     } catch (err) {
@@ -204,7 +204,7 @@ export const useStoreUsuarios = defineStore('Usuario', () => {
   const desactivarUsuario = async (_id) => {
     try {
       insertarToken()
-      const res = await axios.put(`http://localhost:3624/api/usuario/desactivarUsuario/${_id}`)
+      const res = await axios.put(`https://directoriobackend-qn1l.onrender.com/api/usuario/desactivarUsuario/${_id}`)
       estatus.value = res.status
       return { success: true, data: res.data }
     } catch (err) {

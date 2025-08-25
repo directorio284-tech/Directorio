@@ -4,7 +4,7 @@ import axios from "axios";
 import { Notify } from "quasar";
 
 
-const API_URL = "http://localhost:3624/api/negocio";
+const API_URL = "https://directoriobackend-qn1l.onrender.com/api/negocio";
 
  
 export const useNegocioStore = defineStore("negocio", () => {
