@@ -248,7 +248,7 @@ const resultadosRef = ref(null)
 const showBackToTop = ref(false)
 
 // WhatsApp del administrador (formato internacional sin '+', ej: 573001234567)
-const adminWhats = (import.meta?.env?.VITE_ADMIN_WHATSAPP || '573157550263').toString().trim()
+const adminWhats = (import.meta?.env?.VITE_ADMIN_WHATSAPP || '573044914411').toString().trim()
 const whatsAppMessage = 'Hola, quiero registrar mi negocio en el directorio. ¿Me puedes ayudar?'
 
 const whatsDigits = adminWhats.replace(/[^\d]/g, '')
