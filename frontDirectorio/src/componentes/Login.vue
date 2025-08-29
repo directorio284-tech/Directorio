@@ -99,7 +99,7 @@ import { useStoreUsuarios } from '../stores/usuario.js'
 import { useRouter } from 'vue-router'
 import { Notify } from 'quasar'
 // import RegisterModal from './RegistroCliente.vue'
-import ResetPasswordModal from '../componentes/ResetPassword.vue' // 👈 Importa el modal
+import ResetPasswordModal from './ResetPassword.vue' // 👈 Importa el modal
 
 const emit = defineEmits(['close'])
 

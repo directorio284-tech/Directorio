@@ -81,6 +81,7 @@
             <a v-if="props.row.sitioWeb" :href="props.row.sitioWeb" target="_blank">Web</a>
           </q-td>
         </template>
+        
         <template v-slot:body-cell-redes="props">
           <q-td>
             <a v-if="props.row.redes?.facebook" :href="props.row.redes.facebook" target="_blank">Fb</a>
@@ -128,6 +129,19 @@
             />
           </q-td>
         </template>
+        <template v-slot:body-cell-ubicacionUrl="props">
+          <q-td>
+            <a
+              v-if="props.row.ubicacionUrl"
+              :href="props.row.ubicacionUrl"
+              target="_blank"
+              rel="noopener"
+              title="Ver ubicación en mapa"
+            >
+              <q-icon name="place" color="primary" />
+            </a>
+          </q-td>
+        </template>
       </q-table>
       <!-- Modal de edición/creación -->
       <q-dialog v-model="fixed" :backdrop-filter="'blur(4px) saturate(150%)'" transition-show="rotate" transition-hide="rotate" persistent>
@@ -158,7 +172,7 @@
                 outlined
                 :rules="[req, mongoId]"
               />
-
+              <q-input filled v-model="ubicacionUrl" label="Ubicacion Url" :dense="dense" :rules="[reqUrl]" />
               <q-input filled v-model="redes.facebook" label="Facebook" :dense="dense" />
               <q-input filled v-model="redes.instagram" label="Instagram" :dense="dense" />
               <q-input filled v-model="redes.twitter" label="Twitter" :dense="dense" />
@@ -211,8 +225,7 @@
               </div>
 
               <!-- Ubicación (opcional) -->
-              <q-input filled v-model.number="latitud" label="Latitud" :dense="dense" type="number" />
-              <q-input filled v-model.number="longitud" label="Longitud" :dense="dense" type="number" />
+          
             </q-form>
           </q-card-section>
 
@@ -260,6 +273,7 @@ const sitioWeb = ref("")
 const horarios = ref("")
 const email = ref("")
 const tipoNegocio = ref("")
+const ubicacionUrl = ref("")
 const imagenActual = ref("")
 const imagenNueva = ref(null)
 const redes = ref({
@@ -268,8 +282,7 @@ const redes = ref({
   twitter: "",
   whatsapp: ""
 })
-const latitud = ref(null)
-const longitud = ref(null)
+
 
 const fileInput = ref(null)
 
@@ -311,6 +324,7 @@ const columns = [
   { name: 'nombre', label: 'Nombre', align: 'left', field: 'nombre', sortable: true },
   { name: 'direccion', label: 'Dirección', align: 'left', field: 'direccion' },
   { name: 'ciudad', label: 'Ciudad', align: 'left', field: 'ciudad', sortable: true },
+  { name: 'ubicacionUrl', label: 'Ubicación url', align: 'left', field: 'ubicacionUrl' },
   { name: 'tipoNegocio', label: 'Tipo', align: 'left', field: row => typeof row.tipoNegocio === 'string' ? row.tipoNegocio : (row.tipoNegocio?.nombre || '') },
   { name: 'telefono', label: 'Teléfono', align: 'left', field: 'telefono' },
   { name: 'sitioWeb', label: 'Sitio Web', align: 'left', field: 'sitioWeb' },
@@ -349,10 +363,10 @@ function traerDatos(row) {
     twitter: row.redes?.twitter || "",
     whatsapp: row.redes?.whatsapp || ""
   }
+  ubicacionUrl.value = row.ubicacionUrl
   imagenActual.value = row.imagenes && row.imagenes.length ? row.imagenes[0] : ""
   imagenNueva.value = null
-  latitud.value = row.ubicacion?.coordinates?.[1] || ""
-  longitud.value = row.ubicacion?.coordinates?.[0] || ""
+
   fixed.value = true
   b.value = true
 }
@@ -390,11 +404,10 @@ function cerrar() {
   horarios.value = ""
   email.value = ""
   tipoNegocio.value = ""
+  ubicacionUrl.value = ""
   redes.value = { facebook: "", instagram: "", twitter: "", whatsapp: "" }
   imagenActual.value = ""
   imagenNueva.value = null
-  latitud.value = null
-  longitud.value = null 
   fixed.value = false
 }
 
@@ -412,10 +425,9 @@ function abrirDialogCrear() {
   email.value = ""
   tipoNegocio.value = ""
   redes.value = { facebook: "", instagram: "", twitter: "", whatsapp: "" }
+  ubicacionUrl.value = ""
   imagenActual.value = ""
   imagenNueva.value = null
-  latitud.value = null
-  longitud.value = null
   fixed.value = true
 }
 
@@ -430,6 +442,7 @@ const reqUrl = v => {
   const s = String(v ?? '').trim()
   try { new URL(s); return true } catch { return 'URL inválida' }
 }
+
 const mongoId = v => /^[a-f\d]{24}$/i.test(String(v ?? '')) || 'Tipo inválido'
 
 const sleep = (ms) => new Promise(r => setTimeout(r, ms))
@@ -450,14 +463,9 @@ async function guardarNegocio() {
   payload.append('horarios', horarios.value.trim())
   payload.append('email', email.value.trim())
   payload.append('tipoNegocio', tipoNegocio.value)
+  payload.append('ubicacionUrl', ubicacionUrl.value.trim())
   payload.append('redes', JSON.stringify(redes.value || {}))
 
-  const lon = Number(longitud.value)
-  const lat = Number(latitud.value)
-  payload.append('ubicacion', JSON.stringify({
-    type: 'Point',
-    coordinates: [Number.isFinite(lon) ? lon : 0, Number.isFinite(lat) ? lat : 0]
-  }))
   if (imagenNueva.value instanceof File) payload.append('imagen', imagenNueva.value)
 
   try {

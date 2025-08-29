@@ -34,7 +34,6 @@ const httpNegocios = {
 
   // Crear negocio
  postCrearNegocio: async (req, res) => {
-  
   try {
     const {
       nombre,
@@ -45,11 +44,11 @@ const httpNegocios = {
       ciudad,
       horarios, 
       redes,
-      tipoNegocio
+      tipoNegocio,
+      ubicacionUrl // <-- ahora recibimos ubicacionUrl
     } = req.body;
-      
+
     // Parsear strings JSON a objeto real
-    const ubicacion = req.body.ubicacion ? JSON.parse(req.body.ubicacion) : undefined;
     const redesObj = req.body.redes ? JSON.parse(req.body.redes) : {};
 
     let imagenUrl = '';
@@ -78,7 +77,7 @@ const httpNegocios = {
       ciudad,
       horarios,
       imagenes: imagenUrl ? [imagenUrl] : [],
-      ubicacion,
+      ubicacionUrl, // <-- guardamos la url directamente
       redes: redesObj,
       tipoNegocio
     });
@@ -103,9 +102,7 @@ const httpNegocios = {
   // Editar negocio
 putEditarNegocio: async (req, res) => {
   try {
-    if (req.body.ubicacion && typeof req.body.ubicacion === "string") {
-      req.body.ubicacion = JSON.parse(req.body.ubicacion);
-    }
+    // Ya no es necesario parsear ubicacion
     if (req.body.redes && typeof req.body.redes === "string") {
       req.body.redes = JSON.parse(req.body.redes);
     }
@@ -134,6 +131,9 @@ putEditarNegocio: async (req, res) => {
       delete req.body.imagenes;
     }
 
+    // Solo actualiza ubicacionUrl si viene en el body
+    // (no es necesario hacer nada especial, mongoose lo maneja)
+
     const negocio = await Negocio.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
     if (!negocio) {
@@ -151,28 +151,6 @@ putEditarNegocio: async (req, res) => {
     });
   }
 },
-
-  // putEditarNegocio: async (req, res) => {
-  //   try {
-  //     const negocio = await Negocio.findByIdAndUpdate(req.params.id, req.body, {
-  //       new: true,
-  //     });
-
-  //     if (!negocio) {
-  //       return res.status(404).json({ msg: "Negocio no encontrado" });
-  //     }
-
-  //     res.status(200).json({
-  //       msg: "Negocio editado exitosamente",
-  //       negocio,
-  //     });
-  //   } catch (error) {
-  //     res.status(500).json({
-  //       msg: "Error al editar el negocio",
-  //       error: error.message,
-  //     });
-  //   }
-  // },
 
   // Activar negocio
   putActivarNegocio: async (req, res) => {

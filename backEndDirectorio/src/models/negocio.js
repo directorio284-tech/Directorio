@@ -10,10 +10,7 @@ const negocioSchema = new mongoose.Schema(
     ciudad: { type: String, required: true },
     horarios: { type: String }, // texto libre o JSON
     imagenes: [{ type: String }], // array de URLs
-    ubicacion: {
-      type: { type: String, enum: ["Point"], default: "Point" },
-      coordinates: { type: [Number] },
-    },
+    ubicacionUrl: { type: String }, // url de la ubicación
     redes: {
       facebook: String,
       instagram: String,

@@ -185,7 +185,7 @@
             Súmate al directorio y llega a más clientes
           </div>
           <div class="text-body1 text-white hero-sub q-mb-md">
-            Registra tu negocio y hazte visible en tu ciudad. Es rápido y gratuito.
+            Registra tu negocio y hazte visible en tu ciudad. Es rápido y práctico.
           </div>
           <div class="row q-gutter-sm q-mb-md benefits">
             <div class="col-auto text-white"><q-icon name="check_circle" size="20px" class="q-mr-xs" /> Perfil público</div>
@@ -224,7 +224,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { Notify } from 'quasar'
-import Login from './Login.vue'
+import Login from '../componentes/Login.vue'
 import CardLugar from '../componentes/Card.vue'
 import { useNegocioStore } from '../stores/negocio.js'
 import { useRouter } from 'vue-router'

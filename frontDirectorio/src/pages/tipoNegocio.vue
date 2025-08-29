@@ -40,9 +40,9 @@
           <q-separator />
 
           <q-card-section style="max-height: 50vh" class="scroll">
+            <q-input filled v-model="nombre" label="Nombre tipo negocio" :dense="dense" />
             <q-input filled v-model="descripcion" label="Descripción" :dense="dense" />
-            <q-input filled v-model="nombre" label="Nombre" :dense="dense" />
-            <q-input filled v-model="icono" label="Ícono" :dense="dense" />
+           <q-input filled v-model="icono" label="Ícono" :dense="dense" />
           </q-card-section>
           <q-separator />
 

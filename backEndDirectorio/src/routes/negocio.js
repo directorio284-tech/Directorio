@@ -30,6 +30,7 @@ router.post('/crear', [
     check('telefono', 'Teléfono inválido (debe tener entre 7 y 15 dígitos)')
         .not().isEmpty().matches(/^[0-9]{7,15}$/),
     check('ciudad', 'La ciudad es obligatoria').not().isEmpty(),
+    check('ubicacionUrl', 'La ubicación es obligatoria').not().isEmpty(),
     check('sitioWeb', 'El sitio web debe ser una URL válida').not().isEmpty(),
     check('horarios', 'Los horarios son obligatorios').not().isEmpty(),
     check('email', 'Email inválido').isEmail().not().isEmpty(),

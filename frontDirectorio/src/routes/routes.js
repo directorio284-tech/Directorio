@@ -14,7 +14,7 @@ const routes = [
   },
   {
     path: '/login',
-    component: () => import('../pages/Login.vue'),
+    component: () => import('../componentes/Login.vue'),
     // meta: { requiresAdmin: true }
   },
   {

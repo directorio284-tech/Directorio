@@ -105,9 +105,9 @@ export const useStoreTipoNegocio = defineStore("tipoNegocio", () => {
   };
 
   return {
-    // state
+    // lista estado
     tiposNegocio,
-    // actions
+    // acciones
     listarTiposNegocio,
     obtenerTipoPorId,
     crearTipoNegocio,

@@ -1,19 +1,48 @@
 <template>
-  <q-card class="hoverable-card">
-    <q-img :src="lugar.imagenes?.[0] || 'https://cdn.quasar.dev/img/mountains.jpg'" :ratio="16/9" />
+  <q-card class="hoverable-card directory-card">
+    <q-img
+      :src="lugar.imagenes?.[0] || 'https://cdn.quasar.dev/img/mountains.jpg'"
+      :ratio="16/9"
+      class="card-img"
+    />
 
     <q-card-section>
-      <div class="text-h5">{{ lugar.nombre }}</div>
-      <div class="text-subtitle1">{{ lugar.tipoNegocio?.nombre || 'Sin categoría' }}</div>
-      <div class="text-subtitle2 text-grey-8 text-weight-medium">{{ lugar.direccion }}</div>
-
-      <div v-if="lugar.sitioWeb" class="q-mt-sm">
-        <q-btn flat dense color="primary" icon="public" label="Sitio Web"
-               @click="openAndCount(normalizeUrl(lugar.sitioWeb))" />
+      <div class="text-h5 text-weight-bold q-mb-sm">{{ lugar.nombre }}</div>
+      <div class="text-body1 text-grey-7 q-mb-xs">
+        <q-icon :name="getTipoIcon(lugar.tipoNegocio)" size="20px" class="q-mr-xs" />
+        {{ lugar.tipoNegocio?.nombre || 'Sin categoría' }}
+      </div>
+      <div class="text-body2 text-grey-8 q-mb-xs">
+        <q-icon name="place" size="20px" class="q-mr-xs" />
+        {{ lugar.direccion }}
+      </div>
+      <div v-if="lugar.sitioWeb" class="q-mb-xs">
+        <q-icon name="public" size="20px" class="q-mr-xs" />
+        <span
+          class="text-primary sitio-web-label sitio-web-link"
+          @click="openAndCount(normalizeUrl(lugar.sitioWeb))"
+          style="cursor:pointer; text-decoration:underline;"
+          title="Ir al sitio web"
+        >Sitio web</span>
+      </div>
+      <div v-if="lugar.ubicacionUrl" class="q-mb-xs">
+        <q-btn
+          flat
+          dense
+          color="teal"
+          icon="place"
+          label="Ver ubicación"
+          :href="normalizeUrl(lugar.ubicacionUrl)"
+          target="_blank"
+          rel="noopener"
+          style="text-transform: none;"
+        />
       </div>
     </q-card-section>
 
-    <q-card-actions align="between">
+    <q-separator />
+
+    <q-card-actions align="between" class="reverse-actions">
       <div>
         <q-btn v-if="lugar.redes?.facebook" flat round color="blue-8" icon="fab fa-facebook"
                @click="openAndCount(lugar.redes.facebook)" />
@@ -26,18 +55,10 @@
         <q-btn v-if="lugar.redes?.youtube" flat round color="red-5" icon="fab fa-youtube"
                @click="openAndCount(lugar.redes.youtube)" />
       </div>
-
       <div class="row items-center no-wrap">
-        <q-chip dense color="grey-3" text-color="dark" icon="visibility" class="q-mr-sm">
+        <q-chip dense color="grey-3" text-color="dark" icon="visibility" class="q-mr-sm visitas-chip">
           {{ visitasLocal }} visitas
         </q-chip>
-        <q-btn
-          flat
-          label="Ver más"
-          color="primary"
-          :disable="!lugar.sitioWeb"
-          @click="countAndGoToSite"
-        />
       </div>
     </q-card-actions>
   </q-card>
@@ -100,13 +121,63 @@ async function countAndMaybeNavigate() {
   // Si tienes detalle, navega aquí
   // this.$router.push({ name: 'negocio-detalle', params: { id: props.lugar._id } })
 }
+
+// Devuelve el nombre del ícono de Quasar según el tipo de negocio
+function getTipoIcon(tipo) {
+  if (!tipo) return 'business';
+  const nombre = (tipo.nombre || '').toLowerCase();
+  if (nombre.includes('electricidad')) return 'bolt'; // rayo
+  if (nombre.includes('restaurante') || nombre.includes('comida')) return 'restaurant';
+  if (nombre.includes('venta') || nombre.includes('tienda')) return 'storefront';
+  if (nombre.includes('salud')) return 'local_hospital';
+  if (nombre.includes('belleza')) return 'spa';
+  if (nombre.includes('educación')) return 'school';
+  if (nombre.includes('tecnología')) return 'devices';
+  if (nombre.includes('barbería') || nombre.includes('peluquería')) return 'content_cut';
+  if (nombre.includes('farmacia')) return 'local_pharmacy';
+  if (nombre.includes('ropa')) return 'checkroom';
+  if (nombre.includes('panadería')) return 'bakery_dining';
+  if (nombre.includes('hotel')) return 'hotel';
+  if (nombre.includes('transporte')) return 'directions_bus';
+  if (nombre.includes('automotriz') || nombre.includes('mecánica')) return 'build';
+  if (nombre.includes('financiera') || nombre.includes('banco')) return 'account_balance';
+
+  return 'business'; // ícono genérico
+}
+
 </script>
 
 <style scoped>
-.hoverable-card { transition: all .3s ease; }
-.hoverable-card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,.2); }
-
-:deep(form.q-form.q-gutter-md) {
-  margin-top: 0 !important; /* o el valor que necesites */
+.directory-card {
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  transition: box-shadow .2s, transform .2s;
+  min-width: 260px;
+}
+.directory-card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.18);
+  transform: translateY(-4px) scale(1.02);
+}
+.card-img {
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+.q-card-section {
+  padding-bottom: 0;
+}
+.q-card-actions {
+  padding-top: 0;
+}
+.q-card__actions.reverse-actions {
+  flex-direction: row-reverse !important;
+}
+.text-h5 {
+  font-size: 1.35rem;
+}
+.text-body1, .text-body2, .sitio-web-label {
+  font-size: 1.08rem;
+}
+.visitas-chip {
+  font-size: 1rem;
 }
 </style>
