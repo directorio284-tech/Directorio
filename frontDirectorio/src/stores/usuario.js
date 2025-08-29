@@ -192,6 +192,7 @@ export const useStoreUsuarios = defineStore('Usuario', () => {
       insertarToken()
       const res = await axios.put(`https://directoriobackend-qn1l.onrender.com/api/usuario/activarUsuario/${_id}`)
       estatus.value = res.status
+
       return { success: true, data: res.data }
     } catch (err) {
       estatus.value = err.response?.status || 500
@@ -206,6 +207,7 @@ export const useStoreUsuarios = defineStore('Usuario', () => {
       insertarToken()
       const res = await axios.put(`https://directoriobackend-qn1l.onrender.com/api/usuario/desactivarUsuario/${_id}`)
       estatus.value = res.status
+
       return { success: true, data: res.data }
     } catch (err) {
       estatus.value = err.response?.status || 500

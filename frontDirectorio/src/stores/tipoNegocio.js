@@ -72,6 +72,7 @@ export const useStoreTipoNegocio = defineStore("tipoNegocio", () => {
       const res = await axios.put(`https://directoriobackend-qn1l.onrender.com/api/tipoNegocio/editar/${id}`, payload, {
         headers: { "x-token": token() }
       });
+
       const editado = res.data?.data ?? res.data;
       // sincroniza en memoria
       const idx = tiposNegocio.value.findIndex(t => (t._id || t.id) === id);
