@@ -6,7 +6,7 @@ import { Notify } from "quasar";
 
 const API_URL = "https://directoriobackend-qn1l.onrender.com/api/negocio";
 
- 
+
 export const useNegocioStore = defineStore("negocio", () => {
   const negocios = ref([]);
   const negocio = ref(null);
@@ -28,6 +28,7 @@ export const useNegocioStore = defineStore("negocio", () => {
       console.log(error);
     }
   };
+
 
   // Listar negocio por ID
   // const obtenerNegocioPorId = async (id) => {
@@ -69,6 +70,7 @@ export const useNegocioStore = defineStore("negocio", () => {
     }
   };
 
+
   // Alias explícito para “sumar visita” reutilizando el GET anterior
   const sumarVisita = async (id) => obtenerNegocioPorId(id);
 
@@ -97,6 +99,7 @@ export const useNegocioStore = defineStore("negocio", () => {
     }
   };
 
+  
   // Editar negocio
   const editarNegocio = async (id, payload) => {
     try {

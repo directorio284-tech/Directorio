@@ -394,9 +394,13 @@ function goTop() {
 .hero-banner {
   position: relative;
   border-radius: 14px;
-  background: linear-gradient(135deg, #1d4ed8 0%, #9333ea 70%);
+  /* Fondo: primero el gradiente azul, luego la imagen JPG */
+  background:
+    linear-gradient(135deg, #1d4ed8 0%, #9333ea 70%),
+    url('@/assets/banner-bg.jpg') center/cover no-repeat;
   overflow: hidden;
 }
+
 .hero-banner:before {
   content: '';
   position: absolute;
@@ -407,6 +411,15 @@ function goTop() {
   background: radial-gradient(ellipse at center, rgba(255,255,255,0.18), rgba(255,255,255,0) 60%);
   transform: rotate(15deg);
   pointer-events: none; /* evita bloquear clics */
+}
+.hero-banner:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../assets/IGLESIA.jpg') center/cover no-repeat;
+  opacity: 0.7; /* Ajusta la opacidad */
+  z-index: 0;
+  pointer-events: none;
 }
 .hero-content {
   position: relative;
