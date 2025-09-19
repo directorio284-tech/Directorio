@@ -8,7 +8,7 @@ export const useStoreTipoNegocio = defineStore("tipoNegocio", () => {
 
   const listarTiposNegocio = async () => {
     try {
-      const res = await axios.get("http://localhost:3624/api/tipoNegocio/Listar");
+      const res = await axios.get("https://directoriobackend-qn1l.onrender.com/api/tipoNegocio/Listar");
       tiposNegocio.value = res.data;
     } catch (error) {
       Notify.create({
@@ -34,7 +34,7 @@ export const useStoreTipoNegocio = defineStore("tipoNegocio", () => {
   // ---- LISTAR POR ID ----
   const obtenerTipoPorId = async (id) => {
     try {
-      const res = await axios.get(`http://localhost:3624/api/tipoNegocio/listar/${id}`);
+      const res = await axios.get(`https://directoriobackend-qn1l.onrender.com/api/tipoNegocio/listar/${id}`);
       // el backend podría responder {data: {...}} o {...}
       return res.data?.data ?? res.data;
     } catch (error) {
@@ -47,7 +47,7 @@ export const useStoreTipoNegocio = defineStore("tipoNegocio", () => {
   // ---- CREAR (JWT) ----
   const crearTipoNegocio = async (payload) => {
     try {
-      const res = await axios.post(`http://localhost:3624/api/tipoNegocio/crear`, payload, {
+      const res = await axios.post(`https://directoriobackend-qn1l.onrender.com/api/tipoNegocio/crear`, payload, {
         headers: { "x-token": token() }
       });
       const nuevo = res.data?.data ?? res.data;
@@ -69,7 +69,7 @@ export const useStoreTipoNegocio = defineStore("tipoNegocio", () => {
   // ---- EDITAR (JWT) ----
   const editarTipoNegocio = async (id, payload) => {
     try {
-      const res = await axios.put(`http://localhost:3624/api/tipoNegocio/editar/${id}`, payload, {
+      const res = await axios.put(`https://directoriobackend-qn1l.onrender.com/api/tipoNegocio/editar/${id}`, payload, {
         headers: { "x-token": token() }
       });
 
@@ -91,7 +91,7 @@ export const useStoreTipoNegocio = defineStore("tipoNegocio", () => {
   // ---- ELIMINAR (JWT) ----
   const eliminarTipoNegocio = async (id) => {
     try {
-      await axios.delete(`http://localhost:3624/api/tipoNegocio/eliminar/${id}`, {
+      await axios.delete(`https://directoriobackend-qn1l.onrender.com/api/tipoNegocio/eliminar/${id}`, {
         headers: { "x-token": token() }
       });
       tiposNegocio.value = tiposNegocio.value.filter(t => (t._id || t.id) !== id);
