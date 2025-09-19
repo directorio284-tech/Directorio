@@ -3,13 +3,22 @@
     <div style="margin: 45px;">
       <div style="display:flex; justify-content: space-between; align-items: center;">
         <h2 style="color: orange; margin: 0;">Tipos de negocio</h2>
-        <q-btn 
-          @click="abrirDialogCrear" 
-          color="orange" 
-          icon="add" 
-          label="CREAR" 
-          text-color="white" 
-        />
+        <div style="display: flex; gap: 8px;">
+          <q-btn 
+            color="grey-7"
+            icon="arrow_back"
+            label="Volver"
+            text-color="white"
+            @click="$router.back()"
+          />
+          <q-btn 
+            @click="abrirDialogCrear" 
+            color="orange" 
+            icon="add" 
+            label="CREAR" 
+            text-color="white" 
+          />
+        </div>
       </div>
       <q-table
         :rows="rows"

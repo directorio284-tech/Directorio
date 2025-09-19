@@ -3,13 +3,22 @@
     <div style="margin: 45px;">
       <div style="display:flex; justify-content: space-between; align-items: center;">
         <h4 style="color: orange; margin: 0;">Negocios</h4>
-        <q-btn 
-          @click="abrirDialogCrear" 
-          color="orange" 
-          icon="add" 
-          label="CREAR" 
-          text-color="white" 
-        />
+        <div style="display: flex; gap: 8px;">
+          <q-btn 
+            color="grey-7"
+            icon="arrow_back"
+            label="Volver"
+            text-color="white"
+            @click="$router.back()"
+          />
+          <q-btn 
+            @click="abrirDialogCrear" 
+            color="orange" 
+            icon="add" 
+            label="CREAR" 
+            text-color="white" 
+          />
+        </div>
       </div>
       <!-- Filtros -->
       <div class="row q-col-gutter-md q-mb-md">

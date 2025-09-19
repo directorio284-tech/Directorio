@@ -203,7 +203,6 @@
                 :href="whatsAppLink"
                 target="_blank"
                 rel="noopener"
-                @click="openWhatsApp"
               />
             </div>
           </div>
@@ -248,11 +247,16 @@ const resultadosRef = ref(null)
 const showBackToTop = ref(false)
 
 // WhatsApp del administrador (formato internacional sin '+', ej: 573001234567)
-const adminWhats = (import.meta?.env?.VITE_ADMIN_WHATSAPP || '573044914411').toString().trim()
+const adminWhats = (import.meta?.env?.VITE_ADMIN_WHATSAPP || '573165402931').toString().trim()
+// Evita saltos de línea y caracteres raros
 const whatsAppMessage = 'Hola, quiero registrar mi negocio en el directorio. ¿Me puedes ayudar?'
 
 const whatsDigits = adminWhats.replace(/[^\d]/g, '')
-const whatsAppLink = computed(() => `https://wa.me/${whatsDigits}?text=${encodeURIComponent(whatsAppMessage)}`)
+const whatsAppLink = computed(() => {
+  // Codifica el mensaje correctamente
+  const msg = encodeURIComponent(whatsAppMessage.replace(/\n/g, ' '))
+  return `https://wa.me/${whatsDigits}?text=${msg}`
+})
 
 function openWhatsApp() {
   if (!/^\d{8,15}$/.test(whatsDigits)) {
@@ -260,9 +264,7 @@ function openWhatsApp() {
     return
   }
   const url = whatsAppLink.value
-  console.log('[WA] adminWhats:', adminWhats, 'digits:', whatsDigits, 'url:', url) // debug
-  const win = window.open(url, '_blank', 'noopener,noreferrer')
-  if (!win) window.location.href = url
+  window.open(url, '_blank', 'noopener,noreferrer')
 }
 
 onMounted(async () => {
@@ -354,6 +356,7 @@ function scrollToResultados() {
 function goTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
+
 </script>
 
 <style scoped>

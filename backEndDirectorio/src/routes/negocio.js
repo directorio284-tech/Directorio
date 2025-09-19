@@ -47,7 +47,6 @@ router.put("/editar/:id", [
      upload.single('imagen'),                                                                                                                                                                                           
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(negocioHelper.existeNegocioID),
-
     validarCampos
 ], httpNegocios.putEditarNegocio);
 
@@ -76,5 +75,6 @@ router.delete("/eliminar/:id", [
     check('id').custom(negocioHelper.existeNegocioID),
     validarCampos
 ], httpNegocios.deleteEliminarNegocio);
+
 
 module.exports = router;
